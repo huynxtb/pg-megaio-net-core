@@ -1,0 +1,51 @@
+﻿@model List<MegaIOModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Upload/Download File with <a href="https://mega.io/">Mega.IO</a></h1>
+    <p><a href="https://code-mega.com">code-mega.com</a>.</p>
+</div>
+
+<div class="form-control">
+    <form enctype="multipart/form-data" method="POST" action="/Home/UploadFile">
+        
+        <label for="file">Choose File To Upload:</label><br><br>
+        
+        <input type="file" id="file" name="File"><br><br>
+
+        <input type="submit" value="Submit">
+        
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>File Name</th>
+        <th>File Size</th>
+        <th>Delete</th>
+        <th>Download</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FileName</td>
+            <td>@item.FileSize</td>
+            <td>
+                <form method="POST" action="/Home/DeleteFile">
+                    <input value="@item.DownloadUrl" type="hidden" name="DownloadUrl"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </td>
+            <td>
+                <form method="GET" action="/Home/DownloadFile">
+                    <input value="@item.DownloadUrl" type="hidden" name="DownloadUrl"/>
+                    <input value="@item.FileName" type="hidden" name="FileName"/>
+                    <input type="submit" value="Download"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
